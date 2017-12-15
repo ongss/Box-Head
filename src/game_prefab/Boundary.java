@@ -74,15 +74,15 @@ public abstract class Boundary {
 	
 	public void draw(GraphicsContext gc) {
 		gc.setFill(Color.WHITE);
-		/*gc.beginPath();
+		gc.beginPath();
 		gc.moveTo(this.topLeft.getX(), this.topLeft.getX());
 		gc.lineTo(this.topRight.getX(), this.topRight.getY());
 		gc.lineTo(this.bottomRight.getX(), this.bottomRight.getY());
 		gc.lineTo(this.bottomLeft.getX(), this.bottomLeft.getY());
-		gc.moveTo(this.topLeft.getX(), this.topLeft.getX());
+		gc.lineTo(this.topLeft.getX(), this.topLeft.getX());
 		gc.closePath();
-		gc.fill();*/
-		gc.fillRect(this.center.getX(), this.center.getY(), 50, 50);
+		gc.fill();
+		//gc.fillRect(this.center.getX(), this.center.getY(), 50, 50);
 	}
 	
 	public double getX() {
