@@ -59,10 +59,17 @@ public class GameLogic {
 	private void updateGame(long elapsedTime) {
 		// TODO fill code
 		addKeyEventHandler();
+<<<<<<< HEAD
 		model.c.updatePosition();
 		model.c.fictionForce();
+=======
+
+		//model.c.updatePosition(); hello
+		//model.c.fictionForce(); hi
+>>>>>>> 281394692b71c9aa0d74995aa814bebec61fa273
 		//model.c2.updatePosition();
 		//model.c2.fictionForce();
+
 	}
 	
 	private void addKeyEventHandler() {
