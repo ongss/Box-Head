@@ -2,7 +2,7 @@ package game_prefab;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public class Collider extends Boundary implements MoveAble,DrawAble,TurnAble {
+public class Collider extends Boundary {
 	private final double FICTION_COEFFICIENT = 0.08;
 	private final double REFECT_CEFFICIENT = 0.2;
 	private double velocityX,velocityY,angularVelocity;
@@ -11,30 +11,35 @@ public class Collider extends Boundary implements MoveAble,DrawAble,TurnAble {
 	public Collider(int mass,double posX, double posY, double width, double height) {
 		super(posX, posY, width, height);
 		this.mass = mass;
-		this.angularVelocity = 0;
+		this.angularVelocity = 10;
 		this.velocityX = 0;
 		this.velocityY = 0;
 	}
 
 	public void checkHit(Boundary other,Vector2D v) {
+		Vector2D f = this.touch(other);
 		if(other instanceof Collider) {
-			Vector2D f = this.touch(other);
 			f.multipleBy(this.FICTION_COEFFICIENT);
 			if(f.size() == 0) return;
-			Point p = this.overlapPoint(other);
+			Point2D p = this.overlapPoint(other);
 			((Collider) other).AddForce(new Force2D(p,f));
-			f.inverse();
-			this.AddForce(new Force2D(p,f));
+			this.AddForce(new Force2D(p,f.inverse()));
+		}
+		else if(other instanceof FixedObject) {
+			f.multipleBy(this.FICTION_COEFFICIENT);
+			if(f.size() == 0) return;
+			Point2D p = this.overlapPoint(other);
+			this.AddForce(new Force2D(p,f.inverse()));
 		}
 	}
 	
 	public void AddForce(Force2D f) {
 		velocityX += f.getSizeX()/this.mass;
-		if(velocityX > TERMINAL_VELOCITY) velocityX = TERMINAL_VELOCITY;
+		if(velocityX > super.TERMINAL_VELOCITY) velocityX = super.TERMINAL_VELOCITY;
 		velocityY += f.getSizeY()/this.mass;
-		if(velocityY > TERMINAL_VELOCITY) velocityY = TERMINAL_VELOCITY;
-		angularVelocity = f.getSizeX()*(this.getX()-f.getPosX()) - f.getSizeY()*(this.getY()-f.getPosY())/this.mass;
-		if(angularVelocity > TERMINAL_ANGULAR_VELOCITY) angularVelocity = TERMINAL_ANGULAR_VELOCITY;
+		if(velocityY > super.TERMINAL_VELOCITY) velocityY = super.TERMINAL_VELOCITY;
+		angularVelocity += f.getSizeX()*(this.getX()-f.getPosX()) - f.getSizeY()*(this.getY()-f.getPosY())/this.mass;
+		if(Math.abs(angularVelocity) > super.TERMINAL_ANGULAR_VELOCITY) angularVelocity = super.TERMINAL_ANGULAR_VELOCITY;
 	}
 	
 	public void fictionForce() {
@@ -45,6 +50,9 @@ public class Collider extends Boundary implements MoveAble,DrawAble,TurnAble {
 		if(Math.abs(this.velocityY) < fictionForce/mass) this.velocityY = 0;
 		else if(this.velocityY > 0) this.velocityY -= fictionForce/mass;
 		else if(this.velocityY < 0) this.velocityY += fictionForce/mass;	
+		if(Math.abs(this.angularVelocity) < fictionForce/(10*mass)) this.angularVelocity = 0;
+		else if(this.angularVelocity > 0) this.angularVelocity -= fictionForce/(10*mass);
+		else if(this.angularVelocity < 0) this.angularVelocity += fictionForce/(10*mass);
 	}
 	
 	public void updatePosition() {
@@ -52,11 +60,5 @@ public class Collider extends Boundary implements MoveAble,DrawAble,TurnAble {
 		this.rotate(angularVelocity);
 	}
 
-	@Override
-	public void turn(String r) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	
 }

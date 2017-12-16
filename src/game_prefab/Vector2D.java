@@ -8,14 +8,22 @@ public class Vector2D {
 		this.y = y;
 	}
 	
-	public void multipleBy(double m) {
+	public Vector2D multipleBy(double m) {
 		this.x *= m;
 		this.y *= m;
+		return this;
 	}
 	
-	public void inverse() {
+	public Vector2D inverse() {
 		this.x = -this.x;
 		this.y = -this.y;
+		return this;
+	}
+	
+	public Vector2D toUnit() {
+		this.x = this.x / this.size();
+		this.y = this.y / this.size();
+		return this;
 	}
 	
 	public double size() {
