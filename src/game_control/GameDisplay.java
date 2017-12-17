@@ -71,7 +71,9 @@ public class GameDisplay extends Canvas {
 		// TODO: fill code
 		gc.setFill(Color.BLACK);
 		gc.fillRect(0, 0, SceneManager.SCENE_WIDTH, SceneManager.SCENE_HEIGHT);
-		model.c.draw(gc);
+		model.arena.draw(gc);
+		model.zombie.draw(gc);
+		model.player.draw(gc);
 		//model.c2.draw(gc);
 	}
 	

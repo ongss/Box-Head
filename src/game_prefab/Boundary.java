@@ -33,18 +33,18 @@ public abstract class Boundary implements RotateAble,MoveAble{
 	
 	public void rotate(double deg) {
 		this.deg = (this.deg + deg)%360;
-		topLeft.rotate(center, this.deg+135);
-		topRight.rotate(center, this.deg+45);
-		bottomLeft.rotate(center, this.deg+225);
-		bottomRight.rotate(center, this.deg+315);
+		topLeft.rotate(center, this.deg+315);
+		topRight.rotate(center, this.deg+225);
+		bottomLeft.rotate(center, this.deg+45);
+		bottomRight.rotate(center, this.deg+135);
 	}
 	
 	public void rotateTo(double deg) {
 		this.deg = deg;
-		topLeft.rotate(center, this.deg+135);
-		topRight.rotate(center, this.deg+45);
-		bottomLeft.rotate(center, this.deg+225);
-		bottomRight.rotate(center, this.deg+315);
+		topLeft.rotate(center, this.deg+315);
+		topRight.rotate(center, this.deg+225);
+		bottomLeft.rotate(center, this.deg+45);
+		bottomRight.rotate(center, this.deg+135);
 	}
 	
 	public boolean isInBoundary(Point2D p) {
@@ -90,9 +90,14 @@ public abstract class Boundary implements RotateAble,MoveAble{
 		
 		gc.strokeLine(this.topLeft.getX(), this.topLeft.getY(), this.topRight.getX(), this.topRight.getY());
 		gc.strokeLine(this.topRight.getX(), this.topRight.getY(), this.bottomRight.getX(), this.bottomRight.getY());
-		gc.strokeLine(this.bottomRight.getX(), this.bottomRight.getY(), this.bottomLeft.getX(), this.bottomLeft.getY());
 		gc.strokeLine(this.bottomLeft.getX(), this.bottomLeft.getY(), this.topLeft.getX(), this.topLeft.getY());
+		gc.setStroke(Color.RED);
+		gc.strokeLine(this.bottomRight.getX(), this.bottomRight.getY(), this.bottomLeft.getX(), this.bottomLeft.getY());
 		
+//		topLeft.draw(gc,Color.RED); 
+//		topRight.draw(gc, Color.AQUA);
+//		bottomRight.draw(gc, Color.YELLOW);
+//		bottomLeft.draw(gc, Color.GREEN);
 		
 		/*gc.moveTo(this.topLeft.getX(), this.topLeft.getX());
 		gc.beginPath();
@@ -103,6 +108,15 @@ public abstract class Boundary implements RotateAble,MoveAble{
 		gc.closePath();
 		gc.fill();*/
 	}
+	
+	public void draw(GraphicsContext gc,Color color) {
+		gc.setStroke(color);
+		gc.strokeLine(this.topLeft.getX(), this.topLeft.getY(), this.topRight.getX(), this.topRight.getY());
+		gc.strokeLine(this.topRight.getX(), this.topRight.getY(), this.bottomRight.getX(), this.bottomRight.getY());
+		gc.strokeLine(this.bottomLeft.getX(), this.bottomLeft.getY(), this.topLeft.getX(), this.topLeft.getY());
+		gc.strokeLine(this.bottomRight.getX(), this.bottomRight.getY(), this.bottomLeft.getX(), this.bottomLeft.getY());
+	}
+	
 	
 	public double getX() {
 		return this.center.getX();

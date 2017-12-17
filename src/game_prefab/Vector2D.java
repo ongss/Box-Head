@@ -8,6 +8,10 @@ public class Vector2D {
 		this.y = y;
 	}
 	
+	public Vector2D tryAdd(Vector2D other){
+		return new Vector2D(this.x + other.x,this.y + other.y);
+	}
+	
 	public Vector2D multipleBy(double m) {
 		this.x *= m;
 		this.y *= m;
@@ -32,6 +36,14 @@ public class Vector2D {
 	
 	public double getSlope() {
 		return y/x;
+	}
+	
+	public void setX(double x) {
+		this.x = x;
+	}
+	
+	public void setY(double y) {
+		this.y = y;
 	}
 	
 	public double getX() {

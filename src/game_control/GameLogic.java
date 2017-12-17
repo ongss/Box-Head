@@ -19,6 +19,10 @@ public class GameLogic {
 	private GameDisplay gameDisplay;
 	private boolean isGameRunning;
 	
+	private boolean upState;
+	private boolean downState;
+	private boolean leftState;
+	private boolean rightState;
 	
 	public GameLogic(GameModel model,GameDisplay gameDisplay,GameTimer timer){
 		this.model = model;
@@ -59,17 +63,48 @@ public class GameLogic {
 	private void updateGame(long elapsedTime) {
 		// TODO fill code
 		addKeyEventHandler();
-<<<<<<< HEAD
-		model.c.updatePosition();
-		model.c.fictionForce();
-=======
-
-		//model.c.updatePosition(); hello
-		//model.c.fictionForce(); hi
->>>>>>> 281394692b71c9aa0d74995aa814bebec61fa273
-		//model.c2.updatePosition();
-		//model.c2.fictionForce();
-
+		playerMove();
+		model.player.updatePosition();
+		model.player.fictionForce();
+		model.arena.update();
+	}
+	
+	private void playerMove() {
+		if(upState && rightState) {
+			model.player.turnTo("upRight");
+			model.player.walk("upRight");
+		}
+		else if(downState && rightState) {
+			model.player.turnTo("downRight");
+			model.player.walk("downRight");
+		}
+		else if(upState && leftState) {
+			model.player.turnTo("upLeft");
+			model.player.walk("upLeft");
+		}
+		else if(downState && leftState) {
+			model.player.turnTo("downLeft");
+			model.player.walk("downLeft");
+		}
+		else if(upState) {
+			model.player.turnTo("up");
+			model.player.walk("up");
+		}
+		else if(downState) {
+			model.player.turnTo("down");
+			model.player.walk("down");
+		}
+		else if(rightState) {
+			model.player.turnTo("right");
+			model.player.walk("right");
+		}
+		else if(leftState) {
+			model.player.turnTo("left");
+			model.player.walk("left");
+		}
+		else {
+			model.player.still();
+		}
 	}
 	
 	private void addKeyEventHandler() {
@@ -77,16 +112,16 @@ public class GameLogic {
 		gameDisplay.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
 				if(event.getCode() == KeyCode.UP) {
-					model.c.AddForce(new Force2D(model.c.getX(),model.c.getY(),0,-50));
+					upState = true;
 				}
 				if(event.getCode() == KeyCode.DOWN) {
-					model.c.AddForce(new Force2D(model.c.getX(),model.c.getY(),0,50));
+					downState = true;
 				}
 				if(event.getCode() == KeyCode.LEFT) {
-					model.c.AddForce(new Force2D(model.c.getX(),model.c.getY(),-50,0));
+					leftState = true;
 				}
 				if(event.getCode() == KeyCode.RIGHT) {
-					model.c.AddForce(new Force2D(model.c.getX(),model.c.getY(),50,0));
+					rightState = true;
 				}
 				if(event.getCode() == KeyCode.ENTER) {
 					
@@ -106,16 +141,16 @@ public class GameLogic {
 		gameDisplay.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
 				if(event.getCode() == KeyCode.UP) {
-					
+					upState = false;
 				}
 				if(event.getCode() == KeyCode.DOWN) {
-					
+					downState = false;
 				}
 				if(event.getCode() == KeyCode.LEFT) {
-					
+					leftState = false;
 				}
 				if(event.getCode() == KeyCode.RIGHT) {
-					
+					rightState = false;
 				}
 				if(event.getCode() == KeyCode.ENTER) {
 					

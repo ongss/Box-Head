@@ -1,6 +1,6 @@
 package game_prefab;
 
-public class Charector extends Collider implements DrawAble{
+public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 	public static final double CHARECTOR_WIDTH = 50;
 	public static final double CHARECTOR_HEIGHT = 50;
 	
@@ -28,12 +28,84 @@ public class Charector extends Collider implements DrawAble{
 		if(this.hp < 0) this.hp = 0;
 	}
 	
-	public int compareTo(Charector other) {
-		if(this.getX() > other.getX()) return 1;
-		if(this.getX() < other.getX()) return -1;
-		if(this.getY() > other.getY()) return 1;
-		if(this.getY() < other.getY()) return -1;
-		return 0;
+	
+	public boolean isAlive() {
+		if(this.hp >= 0) return true;
+		return false;
+	}
+
+	@Override
+	public void turn(String di) {
+		
+		
+	}
+
+	@Override
+	public void turnTo(String di) {
+		if(di == "upLeft") {
+			this.rotateTo(135);
+		}
+		else if(di == "upRight") {
+			this.rotateTo(225);
+		}
+		else if(di == "downLeft") {
+			this.rotateTo(45);
+		}
+		else if(di == "downRight") {
+			this.rotateTo(315);
+		}
+		else if(di == "up") {
+			this.rotateTo(180);
+		}
+		else if(di == "down") {
+			this.rotateTo(0);
+		}
+		else if(di == "left") {
+			this.rotateTo(90);
+		}
+		else if(di == "right") {
+			this.rotateTo(270);
+		}
+		
+	}
+
+	@Override
+	public void walk(String di) {
+		if(di == "upLeft") {
+			this.setVelocity(-this.speed/Math.pow(2,0.5),-this.speed/Math.pow(2,0.5));
+		}
+		else if(di == "upRight") {
+			this.setVelocity(this.speed/Math.pow(2,0.5),-this.speed/Math.pow(2,0.5));
+		}
+		else if(di == "downLeft") {
+			this.setVelocity(-this.speed/Math.pow(2,0.5),this.speed/Math.pow(2,0.5));
+		}
+		else if(di == "downRight") {
+			this.setVelocity(this.speed/Math.pow(2,0.5),this.speed/Math.pow(2,0.5));
+		}
+		else if(di == "up") {
+			this.setVelocity(0,-this.speed);
+		}
+		else if(di == "down") {
+			this.setVelocity(0,this.speed);
+		}
+		else if(di == "right") {
+			this.setVelocity(this.speed,0);
+		}
+		else if(di == "left") {
+			this.setVelocity(-this.speed,0);
+		}
+	}
+
+	@Override
+	public void walkTo(double x,double y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void still() {
+		this.setVelocity(0, 0);
 	}
 
 }

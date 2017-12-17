@@ -54,8 +54,8 @@ public class Point2D {
 		return this.y;
 	}
 	
-	public void draw(GraphicsContext gc) {
-		gc.setFill(Color.RED);
+	public void draw(GraphicsContext gc,Color color) {
+		gc.setFill(color);
 		gc.fillOval(this.x, this.y, 5, 5);
 	}
 }
