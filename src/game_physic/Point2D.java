@@ -1,4 +1,4 @@
-package game_prefab;
+package game_physic;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -6,7 +6,27 @@ import javafx.scene.paint.Color;
 public class Point2D {
 	private double x,y;
 	
+	public Point2D() {
+		this.x = 0;
+		this.y = 0;
+	}
+	
+	public Point2D(Point2D p) {
+		this.x = p.x;
+		this.y = p.y;
+	}
+	
 	public Point2D(double x,double y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void moveTo(Point2D p) {
+		this.x = p.x;
+		this.y = p.y;
+	}
+	
+	public void moveTo(double x,double y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -14,6 +34,15 @@ public class Point2D {
 	public void move(double x,double y) {
 		this.x += x;
 		this.y += y;
+	}
+	
+	public Vector2D vector() {
+		return new Vector2D(this.x,this.y);
+	}
+	
+	public Vector2D vector(Point2D other) {
+		// this -> other
+		return new Vector2D(other.x - this.x,other.y - this.y);
 	}
 	
 	public double slope(Point2D other) {
@@ -24,8 +53,10 @@ public class Point2D {
 		return this.y - slope(other)*this.x;
 	}
 	
-	public boolean sameSite(Point2D other,double slope,double constance) { 
-		return (other.x >= (other.y-constance)/slope) == (this.x >= (this.y-constance)/slope);
+	public boolean sameSite(Point2D other,double slope,double constance,Point2D slopeOrigin) { 
+		if(!Double.isInfinite(slope)) return (other.x >= (other.y-constance)/slope) == (this.x >= (this.y-constance)/slope);
+		if((this.getX() <= slopeOrigin.getX()) == (other.getX() <= slopeOrigin.getX())) return true;
+		return false;
 	}
 	
 	public double distance(Point2D other) {
@@ -54,8 +85,17 @@ public class Point2D {
 		return this.y;
 	}
 	
+	public Point2D get() {
+		return this;
+	}
+	
+	public String toString() {
+		return "x : "+this.x+" y : "+this.y;
+	}
+	
 	public void draw(GraphicsContext gc,Color color) {
 		gc.setFill(color);
 		gc.fillOval(this.x, this.y, 5, 5);
 	}
+
 }

@@ -1,5 +1,7 @@
 package game_prefab;
 
+import game_physic.Boundary;
+
 public class FixedObject extends Boundary{
 	private int hp;
 	private boolean destroyAble;

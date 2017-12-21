@@ -75,6 +75,11 @@ public class GameDisplay extends Canvas {
 		model.zombie.draw(gc);
 		model.player.draw(gc);
 		//model.c2.draw(gc);
+		
+	}
+	
+	public GraphicsContext getGc() {
+		return gc;
 	}
 	
 	

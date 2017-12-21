@@ -1,8 +1,8 @@
 package game_control;
 
 import game_model.GameModel;
-import game_prefab.Collider;
-import game_prefab.Force2D;
+import game_physic.Collider;
+import game_physic.Force2D;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -64,9 +64,8 @@ public class GameLogic {
 		// TODO fill code
 		addKeyEventHandler();
 		playerMove();
-		model.player.updatePosition();
 		model.player.fictionForce();
-		model.arena.update();
+		model.arena.update(gameDisplay.getGc());
 	}
 	
 	private void playerMove() {

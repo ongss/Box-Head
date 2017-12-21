@@ -1,6 +1,6 @@
 package scene_object;
 
-import game_prefab.DrawAble;
+import game_physic.DrawAble;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;

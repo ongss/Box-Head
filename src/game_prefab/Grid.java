@@ -4,6 +4,7 @@ import java.util.TreeSet;
 import java.util.Vector;
 
 import game_object.Player;
+import game_physic.Boundary;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -77,7 +78,7 @@ public class Grid extends Boundary{
 	
 	public void draw(GraphicsContext gc) {
 		super.draw(gc,Color.WHITE);
-		if(isPlayerIn()) super.draw(gc, Color.AQUA);
+		if(isPlayerIn()) super.draw(gc, Color.WHITE);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setFill(Color.WHITE);
 		gc.setFont(FONT);

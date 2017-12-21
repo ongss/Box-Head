@@ -1,4 +1,4 @@
-package game_prefab;
+package game_physic;
 
 public class Force2D extends Vector2D {
 	Point2D pos;

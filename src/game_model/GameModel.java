@@ -3,7 +3,7 @@ package game_model;
 import game_object.Arena;
 import game_object.Player;
 import game_object.Zombie;
-import game_prefab.Collider;
+import game_physic.Collider;
 import timer.GameTimer;
 
 public class GameModel {
@@ -14,7 +14,7 @@ public class GameModel {
 	
 	public GameModel(GameTimer timer){
 		this.timer = timer;
-		player = new Player(50,50);
+		player = new Player(300,300);
 		zombie = new Zombie(100,100);
 		arena = new Arena(10,10);
 		arena.addPlayer(player);

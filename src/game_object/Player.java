@@ -12,5 +12,6 @@ public class Player extends Charector {
 	public Player(double posX, double posY) {
 		super(MASS, HP, ATTACK, ATTACK_FORCE, SPEED, posX, posY);
 	}
+	
 
 }

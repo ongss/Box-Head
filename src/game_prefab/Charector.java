@@ -1,5 +1,10 @@
 package game_prefab;
 
+import game_physic.Collider;
+import game_physic.DrawAble;
+import game_physic.Force2D;
+import game_physic.Vector2D;
+
 public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 	public static final double CHARECTOR_WIDTH = 50;
 	public static final double CHARECTOR_HEIGHT = 50;
@@ -7,6 +12,7 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 	private int hp;
 	private int attack;
 	private double speed;
+	private double walkSpeedX,walkSpeedY;
 	private double force;
 
 	public Charector(int mass,int hp,int attack,double force, double speed, double posX, double posY) {
@@ -20,7 +26,6 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 	public void attack(Charector other) {
 		Force2D f = new Force2D(other.getX(),other.getY(),this.getX()-other.getX(),this.getY()-other.getY());
 		other.reciveDamage(this.attack);
-		other.AddForce(f.toUnit().multipleBy(force));
 	}
 	
 	public void reciveDamage(int damage) {
@@ -96,6 +101,13 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 			this.setVelocity(-this.speed,0);
 		}
 	}
+	
+	private void setWalkSpeed(double x,double y) {
+		Vector2D v = this.getVelocity();
+		walkSpeedX = x;
+		walkSpeedY = y;
+		this.setVelocity(v.getX()+walkSpeedX, v.getY()+walkSpeedY);
+	}
 
 	@Override
 	public void walkTo(double x,double y) {
@@ -105,7 +117,7 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 
 	@Override
 	public void still() {
-		this.setVelocity(0, 0);
+		this.setWalkSpeed(0, 0);
 	}
 
 }

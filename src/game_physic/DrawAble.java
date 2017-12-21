@@ -1,4 +1,4 @@
-package game_prefab;
+package game_physic;
 
 import javafx.scene.canvas.GraphicsContext;
 

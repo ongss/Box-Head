@@ -1,4 +1,4 @@
-package game_prefab;
+package game_physic;
 
 public interface RotateAble {
 	final double TERMINAL_ANGULAR_VELOCITY = 20;

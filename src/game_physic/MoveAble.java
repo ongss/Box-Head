@@ -1,4 +1,4 @@
-package game_prefab;
+package game_physic;
 
 public interface MoveAble {
 	final double TERMINAL_VELOCITY = 20;
