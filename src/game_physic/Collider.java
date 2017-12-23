@@ -3,6 +3,7 @@ package game_physic;
 import java.util.Map;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class Collider extends Boundary implements Comparable<Collider>{
 	private final double FICTION_COEFFICIENT = 0.08;
@@ -44,123 +45,55 @@ public class Collider extends Boundary implements Comparable<Collider>{
 		this.boundary = boundary;
 	}
 	
-    public Contact checkBoxBox(Collider other,GraphicsContext gc) {
-
-        SupportingPoint SUP_POINT_RESULT_A = getClosestSupportingPoint(other);
-        SupportingPoint SUP_POINT_RESULT_B = other.getClosestSupportingPoint(this);
-        
-        if(SUP_POINT_RESULT_A != null) SUP_POINT_RESULT_A.draw(gc);
-        if(SUP_POINT_RESULT_B != null) SUP_POINT_RESULT_B.draw(gc);
-        
-        if (SUP_POINT_RESULT_A == null || SUP_POINT_RESULT_B == null) {
-            return null;
-        }
-        
-        Point2D contactPoint = null;
-        Vector2D normal = new Vector2D();
-        double penetration = -Integer.MAX_VALUE;
-        
-        if (SUP_POINT_RESULT_A != null) {
-            contactPoint = SUP_POINT_RESULT_A;
-            penetration = SUP_POINT_RESULT_A.penetration;
-            normal.set(SUP_POINT_RESULT_A.normal);
-        }
-
-        if (SUP_POINT_RESULT_B != null 
-                && SUP_POINT_RESULT_B.penetration > penetration) {
-            
-            contactPoint = SUP_POINT_RESULT_B;
-            penetration = SUP_POINT_RESULT_B.penetration;
-            normal.set(SUP_POINT_RESULT_B.normal);
-            
-            //Collider bTmp = other;
-            //other = this;
-            //this = bTmp;
-        }
-        
-        return new Contact(other, this, -penetration, normal, contactPoint);
-    }
-	
-	public Contact checkContact(Collider other,GraphicsContext gc) {
-		SupportingPoint sp1 = this.getClosestSupportingPoint(other);
-		SupportingPoint sp2 = other.getClosestSupportingPoint(this);
-		if(sp1 != null) sp1.draw(gc);
-		if(sp2 != null) sp2.draw(gc);
-		if(sp1 == null || sp2 == null) return null;
-		Point2D contactPnt = null;
-		Vector2D normal = new Vector2D();
-		double penetration = -Double.MAX_VALUE;
-		if(sp1.penetration >= sp2.penetration) {
-			contactPnt = sp1.get();
-			penetration = sp1.penetration;
-			normal.set(sp1.normal);
-		}
-		else {
-			contactPnt = sp2.get();
-			penetration = sp2.penetration;
-			normal.set(sp2.normal);
-		}
-		return new Contact(this,other,-penetration,normal,contactPnt);
-	}
-	
-	
-	 private SupportingPoint getClosestSupportingPoint(Collider boxA) {
-	        SupportingPoint supportingPointResult = new SupportingPoint();
-    		SupportingPoint SUP_POINT_RESULT_TMP = new SupportingPoint();
-			Vector2D V_TMP = new Vector2D();
-			supportingPointResult.set(null, null, -Integer.MAX_VALUE);
-	        for (Edge edge : boxA.edges) {
-	            SUP_POINT_RESULT_TMP.set(null, null, 0);
-	            Vector2D normal = edge.normal;
-	            boolean allPositive = true;
-	            for (Point2D v : this.vertices) {
-	                V_TMP.set(v.vector());
-	                V_TMP.sub(edge.a.getX(), edge.a.getY());
-	                double distance = normal.dot(V_TMP);
-	                if (distance < SUP_POINT_RESULT_TMP.penetration) {
-	                    allPositive = false;
-	                    SUP_POINT_RESULT_TMP.set(v, normal, distance);
-	                }
-	            }
-	            // not collides - all vertices dot normal are positive
-	            if (allPositive) {
-	                supportingPointResult.set(null, null, 0);
-	                return null;
-	            }
-	            else if (SUP_POINT_RESULT_TMP.penetration > supportingPointResult.penetration) {
-	                supportingPointResult.set(SUP_POINT_RESULT_TMP,
-	                         SUP_POINT_RESULT_TMP.normal, SUP_POINT_RESULT_TMP.penetration);
-	            }
-	        }
-	        return supportingPointResult;
-	    }
 	
 	public SupportingPoint getSupportingPoint(Collider other) {
 		SupportingPoint sp = new SupportingPoint();
-		SupportingPoint pntTmp = new SupportingPoint();
-		Vector2D vecTmp = new Vector2D();
+		Point2D p = new Point2D();
+		Vector2D v = new Vector2D();
+		Vector2D n = null;
 		boolean allPositive = true;
+		double tmp;
+		double distance = 0;
+		p.moveTo(0,0);
 		for(Edge edge : edges) {
-			pntTmp.set(null, null, 0);
 			allPositive = true;
-			for(Point2D p : other.vertices) {
-				vecTmp.set(p.vector());
-				vecTmp.sub(edge.a.getX(),edge.a.getY());
-				double distance = edge.normal.dot(vecTmp);
-				System.out.println(distance);
-				if(distance < pntTmp.penetration) {
+			distance = 0;
+			for(Point2D vertice : other.vertices) {
+				v.set(vertice.vector());
+				v.sub(edge.a.getX(),edge.a.getY());
+				tmp = edge.normal.dot(v);
+				if(distance > tmp) {
 					allPositive = false;
-					pntTmp.set(p, edge.normal, distance);
-				}
+					distance = tmp;
+					n = edge.normal;
+					p.moveTo(vertice.getX(),vertice.getY());
+				}			
 			}
 			if(allPositive) {
 				return null;
 			}
-			else if(pntTmp.penetration > sp.penetration) {
-				sp.set(pntTmp.get(),pntTmp.normal,pntTmp.penetration);
+			else if(sp.penetration < distance) {
+				sp.set(p, n, distance);
 			}
+			
 		}
 		return sp;
+	}
+	
+	public Contact checkContact(Collider other) {
+		Contact c;
+		SupportingPoint p1 = this.getSupportingPoint(other);
+		SupportingPoint p2 = other.getSupportingPoint(this);
+		if(p1 == null || p2 == null) return null;
+		if(p1.penetration > p2.penetration) {
+			c = new Contact(this,other,p1.penetration,p1.normal,p1);
+			return c;
+		}
+		if(p1.penetration <= p2.penetration) {
+			c = new Contact(other,this,p2.penetration,p2.normal,p2);
+			return c;
+		}
+		return null;
 	}
 	
 	public void resloveCollision(Collider other) {
@@ -183,13 +116,13 @@ public class Collider extends Boundary implements Comparable<Collider>{
 	public void applyForce(Vector2D f,Point2D p) {
 		this.force.add(f);
 		
-		applyTorque(this.getPos().vector(p).cross(f));
+		//applyTorque(this.getPos().vector(p).cross(f));
 	}
 	
 	public void applyImpulse(Vector2D f,Point2D p) {
 		velocity.add(new Vector2D(f).multipleBy(1/mass));
 		
-		angularVelocity += (this.getPos().vector(p).cross(f) / inertia);
+		//angularVelocity += (this.getPos().vector(p).cross(f) / inertia);
 	}
 	
 	public void fictionForce() {
@@ -240,5 +173,13 @@ public class Collider extends Boundary implements Comparable<Collider>{
 	public void setAngularVelocity(double v) {
 		if(v > RotateAble.TERMINAL_ANGULAR_VELOCITY) this.angularVelocity = RotateAble.TERMINAL_ANGULAR_VELOCITY;
 		else this.angularVelocity = v;
+	}
+	
+	public String toString() {
+		String s = "";
+		for(Point2D p : vertices) {
+			s += p.toString() + "\n";
+		}
+		return s;
 	}
 }

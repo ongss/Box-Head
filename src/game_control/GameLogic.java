@@ -2,7 +2,7 @@ package game_control;
 
 import game_model.GameModel;
 import game_physic.Collider;
-import game_physic.Force2D;
+import game_physic.Contact;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -23,6 +23,8 @@ public class GameLogic {
 	private boolean downState;
 	private boolean leftState;
 	private boolean rightState;
+	
+	public Contact c;
 	
 	public GameLogic(GameModel model,GameDisplay gameDisplay,GameTimer timer){
 		this.model = model;
@@ -64,40 +66,49 @@ public class GameLogic {
 		// TODO fill code
 		addKeyEventHandler();
 		playerMove();
-		model.player.fictionForce();
-		model.arena.update(gameDisplay.getGc());
+		//model.player.fictionForce();
+		//model.zombie.fictionForce();
+		model.arena.update();
 	}
 	
 	private void playerMove() {
 		if(upState && rightState) {
+			//model.player.move(2, -2);
 			model.player.turnTo("upRight");
 			model.player.walk("upRight");
 		}
 		else if(downState && rightState) {
+			//model.player.move(2, 2);
 			model.player.turnTo("downRight");
 			model.player.walk("downRight");
 		}
 		else if(upState && leftState) {
+			//model.player.move(-2, -2);
 			model.player.turnTo("upLeft");
 			model.player.walk("upLeft");
 		}
 		else if(downState && leftState) {
+			//model.player.move(-2, 2);
 			model.player.turnTo("downLeft");
 			model.player.walk("downLeft");
 		}
 		else if(upState) {
+			//model.player.move(0,-2);
 			model.player.turnTo("up");
 			model.player.walk("up");
 		}
 		else if(downState) {
+			//model.player.move(0, 2);
 			model.player.turnTo("down");
 			model.player.walk("down");
 		}
 		else if(rightState) {
+			//model.player.move(2, 0);
 			model.player.turnTo("right");
 			model.player.walk("right");
 		}
 		else if(leftState) {
+			//model.player.move(-2, 0);
 			model.player.turnTo("left");
 			model.player.walk("left");
 		}
@@ -123,16 +134,16 @@ public class GameLogic {
 					rightState = true;
 				}
 				if(event.getCode() == KeyCode.ENTER) {
-					
+					System.out.println(model.player);
 				}
 				if(event.getCode() == KeyCode.W) {
-					
+					//model.player.rotate(2);
 				}
 				if(event.getCode() == KeyCode.E) {
-					
+					//model.other.rotate(2);
 				}
 				if(event.getCode() == KeyCode.R) {
-				
+					//model.player.rotateTo(0);
 				}
 			}
 		});

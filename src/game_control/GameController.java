@@ -22,7 +22,6 @@ public class GameController {
 		timer.startTimer();
 		logic.startGame();
 		gameDisplay.startAnimation();
-		
 	}
 	
 	public static void pauseGame() {

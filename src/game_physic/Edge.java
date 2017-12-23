@@ -4,15 +4,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Edge {
-	Point2D a,b;
-	Vector2D normal;
+	public Point2D a,b;
+	public Vector2D normal;
 	
 	public Edge(Point2D a,Point2D b) {
 		this.a = a;
 		this.b = b;
 		this.normal = new Vector2D();
-		this.recalculateNormal();
-		
 	}
 	
 	public void recalculateNormal() {

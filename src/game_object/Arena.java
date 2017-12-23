@@ -44,9 +44,9 @@ public class Arena extends Boundary implements DrawAble{
 		}
 	}
 	
-	public void update(GraphicsContext gc) {
-		//changeGrid();
-		physicUpdate(gc);
+	public void update() {
+		changeGrid();
+		physicUpdate();
 	}
 	
 	public void clearPlayerDistance() {
@@ -120,8 +120,8 @@ public class Arena extends Boundary implements DrawAble{
 		}
 	}
 	
-	public void physicUpdate(GraphicsContext gc) {
-		checkCollision(gc);
+	public void physicUpdate() {
+		//checkCollision();
 		//resolveCollisions();
 		//correctPositions();
 		for(Collider c: colliders) {
@@ -129,44 +129,31 @@ public class Arena extends Boundary implements DrawAble{
 		}
 	}
 	
-//	public void checkCollision() {
-//		contacts.clear();
-//		Collections.sort(colliders,new Comparator<Collider>() {
-//			@Override
-//			public int compare(Collider o1, Collider o2) {
-//				if(o1.getX() > o2.getX()) return 1;
-//				if(o1.getX() < o2.getX()) return -1;
-//				return 0;
-//			}
-//		});
-//		for(int i=0;i<colliders.size();i++) {
-//			double maxX = colliders.get(i).getX() + 2*Grid.WIDHT;
-//			double maxY = colliders.get(i).getY() + 2*Grid.HEIGHT;
-//			int cnt = 1;
-//			while(i+cnt < colliders.size() && colliders.get(i+cnt).getX() >= colliders.get(i).getX() && colliders.get(i+cnt).getX() <= maxX) {
-//				if(colliders.get(i+cnt).getY() >= colliders.get(i).getY() && colliders.get(i+cnt).getY() <= maxY) {
-//					//Contact c = colliders.get(i).checkContact(colliders.get(i+cnt));
-//					Contact c = colliders.get(i).checkBoxBox(colliders.get(i+cnt));
-//					if (c != null && !contacts.contains(c)) {
-//	                    contacts.add(c);
-//	                    System.out.println(c.penetration);
-//	                } 
-//				}
-//				cnt++;
-//			}
-//		}
-//	}
-	
-	public void checkCollision(GraphicsContext gc) {
+	public void checkCollision() {
 		contacts.clear();
-		for(Collider c1 : colliders) {
-			for(Collider c2 : colliders) {
-				if(c1 != c2) {
-					Contact c = c1.checkBoxBox(c2,gc);
-					if(c != null && !contacts.contains(c)) {
-						contacts.add(c);
-					}
+		Collections.sort(colliders,new Comparator<Collider>() {
+			@Override
+			public int compare(Collider o1, Collider o2) {
+				if(o1.getX() > o2.getX()) return 1;
+				if(o1.getX() < o2.getX()) return -1;
+				return 0;
+			}
+		});
+		for(int i=0;i<colliders.size();i++) {
+			double minX = colliders.get(i).getX() - 1.5*Charector.WIDTH;
+			double minY = colliders.get(i).getX() - 1.5*Charector.HEIGHT;
+			double maxX = colliders.get(i).getX() + 1.5*Charector.WIDTH;
+			double maxY = colliders.get(i).getY() + 1.5*Charector.HEIGHT;
+			int cnt = 1;
+			while(i+cnt < colliders.size() && colliders.get(i+cnt).getX() >= minX && colliders.get(i+cnt).getX() <= maxX) {
+				if(colliders.get(i+cnt).getY() >= minY && colliders.get(i+cnt).getY() <= maxY) {
+					Contact c = colliders.get(i).checkContact(colliders.get(i+cnt));
+					if (c != null && !contacts.contains(c)) {
+	                    contacts.add(c);
+	                   // System.out.println(c.penetration);
+	                } 
 				}
+				cnt++;
 			}
 		}
 	}

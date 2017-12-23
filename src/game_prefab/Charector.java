@@ -6,17 +6,17 @@ import game_physic.Force2D;
 import game_physic.Vector2D;
 
 public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
-	public static final double CHARECTOR_WIDTH = 50;
-	public static final double CHARECTOR_HEIGHT = 50;
+	public static final double WIDTH = 50;
+	public static final double HEIGHT = 50;
 	
 	private int hp;
 	private int attack;
 	private double speed;
-	private double walkSpeedX,walkSpeedY;
+	private double walkSpeedX = 0,walkSpeedY = 0;
 	private double force;
 
 	public Charector(int mass,int hp,int attack,double force, double speed, double posX, double posY) {
-		super(mass, posX, posY, CHARECTOR_WIDTH, CHARECTOR_HEIGHT);
+		super(mass, posX, posY, WIDTH, HEIGHT);
 		this.hp = hp;
 		this.attack = attack;
 		this.force = force;
@@ -24,7 +24,6 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 	}
 	
 	public void attack(Charector other) {
-		Force2D f = new Force2D(other.getX(),other.getY(),this.getX()-other.getX(),this.getY()-other.getY());
 		other.reciveDamage(this.attack);
 	}
 	
@@ -77,36 +76,36 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 	@Override
 	public void walk(String di) {
 		if(di == "upLeft") {
-			this.setVelocity(-this.speed/Math.pow(2,0.5),-this.speed/Math.pow(2,0.5));
+			this.setWalkSpeed(-this.speed/Math.pow(2,0.5),-this.speed/Math.pow(2,0.5));
 		}
 		else if(di == "upRight") {
-			this.setVelocity(this.speed/Math.pow(2,0.5),-this.speed/Math.pow(2,0.5));
+			this.setWalkSpeed(this.speed/Math.pow(2,0.5),-this.speed/Math.pow(2,0.5));
 		}
 		else if(di == "downLeft") {
-			this.setVelocity(-this.speed/Math.pow(2,0.5),this.speed/Math.pow(2,0.5));
+			this.setWalkSpeed(-this.speed/Math.pow(2,0.5),this.speed/Math.pow(2,0.5));
 		}
 		else if(di == "downRight") {
-			this.setVelocity(this.speed/Math.pow(2,0.5),this.speed/Math.pow(2,0.5));
+			this.setWalkSpeed(this.speed/Math.pow(2,0.5),this.speed/Math.pow(2,0.5));
 		}
 		else if(di == "up") {
-			this.setVelocity(0,-this.speed);
+			this.setWalkSpeed(0,-this.speed);
 		}
 		else if(di == "down") {
-			this.setVelocity(0,this.speed);
+			this.setWalkSpeed(0,this.speed);
 		}
 		else if(di == "right") {
-			this.setVelocity(this.speed,0);
+			this.setWalkSpeed(this.speed,0);
 		}
 		else if(di == "left") {
-			this.setVelocity(-this.speed,0);
+			this.setWalkSpeed(-this.speed,0);
 		}
 	}
 	
 	private void setWalkSpeed(double x,double y) {
-		Vector2D v = this.getVelocity();
+		this.still();
 		walkSpeedX = x;
 		walkSpeedY = y;
-		this.setVelocity(v.getX()+walkSpeedX, v.getY()+walkSpeedY);
+		this.setVelocity(this.velocity.getX()+walkSpeedX, this.velocity.getY()+walkSpeedY);
 	}
 
 	@Override
@@ -117,7 +116,9 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 
 	@Override
 	public void still() {
-		this.setWalkSpeed(0, 0);
+		this.setVelocity(this.velocity.getX()-walkSpeedX, this.velocity.getY()-walkSpeedY);
+		walkSpeedX = 0;
+		walkSpeedY = 0;
 	}
 
 }

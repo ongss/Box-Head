@@ -27,6 +27,8 @@ public abstract class Boundary implements RotateAble,MoveAble{
 		this.width = width;
 		this.height = height;
 		this.deg = 0;
+		this.rotate(-1);
+		this.rotate(1);
 	}
 	
 	public void move(Vector2D v) {

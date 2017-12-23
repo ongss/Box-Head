@@ -107,7 +107,7 @@ public class Vector2D {
 	}
 	
 	public double dot(Vector2D other) {
-		return this.x*other.x+this.y+other.y;
+		return this.x*other.x+this.y*other.y;
 	}
 	
 	public double cross(Vector2D other) {
