@@ -23,7 +23,7 @@ public class Edge {
 	public void draw(GraphicsContext gc,Color color) {
 		gc.setStroke(color);
 		gc.strokeLine(this.b.getX(), this.b.getY(), this.a.getX(), this.a.getY());
-		gc.setStroke(color.YELLOW);
+		gc.setStroke(Color.YELLOW);
 		gc.strokeLine((this.b.getX()+this.a.getX())/2,(this.b.getY()+this.a.getY())/2,(this.b.getX()+this.a.getX())/2+normal.getX()*5,(this.b.getY()+this.a.getY())/2+normal.getY()*5);
 	}
 	

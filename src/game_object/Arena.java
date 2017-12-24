@@ -26,7 +26,6 @@ public class Arena extends Boundary implements DrawAble{
 	private Vector<Player> player;
 	private Vector<Collider> colliders;
     private final Set<Contact> contacts;
-	
 	private Vector<FixedObject> fixed;
 	
 	public Arena(int width, int height) {
@@ -42,6 +41,11 @@ public class Arena extends Boundary implements DrawAble{
 				grid[i][j] = new Grid(Grid.WIDHT*i+Grid.WIDHT/2,Grid.HEIGHT*j+Grid.WIDHT/2);
 			}
 		}
+		this.addFixedObject(1,4, 5);
+		this.addFixedObject(1,4, 6);
+		this.addFixedObject(1,4, 7);
+		this.addFixedObject(1,4, 8);
+		this.addFixedObject(1,4, 9);
 	}
 	
 	public void update() {
@@ -67,37 +71,37 @@ public class Arena extends Boundary implements DrawAble{
 			queue.add(grid[x][y]);
 			while(!queue.isEmpty()) {
 				Grid g = queue.peek();
-				if(g.getPosX() >= 1 && (grid[g.getPosX()-1][g.getPosY()].getPlayerDistance() == -1 || grid[g.getPosX()-1][g.getPosY()].getPlayerDistance() > g.getPlayerDistance())) {
-					grid[g.getPosX()-1][g.getPosY()].setPlayerDistance(g.getPlayerDistance()+1); 
-					queue.add(grid[g.getPosX()-1][g.getPosY()]);
+				if(g.getPosWidth() >= 1 && grid[g.getPosWidth()-1][g.getPosHeight()].fixed == null && (grid[g.getPosWidth()-1][g.getPosHeight()].getPlayerDistance() == -1 || grid[g.getPosWidth()-1][g.getPosHeight()].getPlayerDistance() > g.getPlayerDistance())) {
+					grid[g.getPosWidth()-1][g.getPosHeight()].setPlayerDistance(g.getPlayerDistance()+1); 
+					queue.add(grid[g.getPosWidth()-1][g.getPosHeight()]);
 				}
-				if(g.getPosX() <= this.width-2 && (grid[g.getPosX()+1][g.getPosY()].getPlayerDistance() == -1 || grid[g.getPosX()+1][g.getPosY()].getPlayerDistance() > g.getPlayerDistance())) {
-					grid[g.getPosX()+1][g.getPosY()].setPlayerDistance(g.getPlayerDistance()+1); 
-					queue.add(grid[g.getPosX()+1][g.getPosY()]);
+				if(g.getPosWidth() <= this.width-2 && grid[g.getPosWidth()+1][g.getPosHeight()].fixed == null && (grid[g.getPosWidth()+1][g.getPosHeight()].getPlayerDistance() == -1 || grid[g.getPosWidth()+1][g.getPosHeight()].getPlayerDistance() > g.getPlayerDistance())) {
+					grid[g.getPosWidth()+1][g.getPosHeight()].setPlayerDistance(g.getPlayerDistance()+1); 
+					queue.add(grid[g.getPosWidth()+1][g.getPosHeight()]);
 				}
-				if(g.getPosY() >= 1 && (grid[g.getPosX()][g.getPosY()-1].getPlayerDistance() == -1 || grid[g.getPosX()][g.getPosY()-1].getPlayerDistance() > g.getPlayerDistance())) {
-					grid[g.getPosX()][g.getPosY()-1].setPlayerDistance(g.getPlayerDistance()+1); 
-					queue.add(grid[g.getPosX()][g.getPosY()-1]);
+				if(g.getPosHeight() >= 1 && grid[g.getPosWidth()][g.getPosHeight()-1].fixed == null && (grid[g.getPosWidth()][g.getPosHeight()-1].getPlayerDistance() == -1 || grid[g.getPosWidth()][g.getPosHeight()-1].getPlayerDistance() > g.getPlayerDistance())) {
+					grid[g.getPosWidth()][g.getPosHeight()-1].setPlayerDistance(g.getPlayerDistance()+1); 
+					queue.add(grid[g.getPosWidth()][g.getPosHeight()-1]);
 				}
-				if(g.getPosY() <= this.height-2 && (grid[g.getPosX()][g.getPosY()+1].getPlayerDistance() == -1 || grid[g.getPosX()][g.getPosY()+1].getPlayerDistance() > g.getPlayerDistance())) {
-					grid[g.getPosX()][g.getPosY()+1].setPlayerDistance(g.getPlayerDistance()+1); 
-					queue.add(grid[g.getPosX()][g.getPosY()+1]);
+				if(g.getPosHeight() <= this.height-2 && grid[g.getPosWidth()][g.getPosHeight()+1].fixed == null && (grid[g.getPosWidth()][g.getPosHeight()+1].getPlayerDistance() == -1 || grid[g.getPosWidth()][g.getPosHeight()+1].getPlayerDistance() > g.getPlayerDistance())) {
+					grid[g.getPosWidth()][g.getPosHeight()+1].setPlayerDistance(g.getPlayerDistance()+1); 
+					queue.add(grid[g.getPosWidth()][g.getPosHeight()+1]);
 				}
-				if(g.getPosX() >= 1 && g.getPosY() >= 1 && (grid[g.getPosX()-1][g.getPosY()-1].getPlayerDistance() == -1 || grid[g.getPosX()-1][g.getPosY()-1].getPlayerDistance() > g.getPlayerDistance())) {
-					grid[g.getPosX()-1][g.getPosY()-1].setPlayerDistance(g.getPlayerDistance()+1); 
-					queue.add(grid[g.getPosX()-1][g.getPosY()-1]);
+				if(g.getPosWidth() >= 1  && g.getPosHeight() >= 1 && grid[g.getPosWidth()-1][g.getPosHeight()-1].fixed == null && (grid[g.getPosWidth()-1][g.getPosHeight()-1].getPlayerDistance() == -1 || grid[g.getPosWidth()-1][g.getPosHeight()-1].getPlayerDistance() > g.getPlayerDistance())) {
+					grid[g.getPosWidth()-1][g.getPosHeight()-1].setPlayerDistance(g.getPlayerDistance()+1); 
+					queue.add(grid[g.getPosWidth()-1][g.getPosHeight()-1]);
 				}
-				if(g.getPosX() >= 1 && g.getPosY() <= this.height-2 && (grid[g.getPosX()-1][g.getPosY()+1].getPlayerDistance() == -1 || grid[g.getPosX()-1][g.getPosY()+1].getPlayerDistance() > g.getPlayerDistance())) {
-					grid[g.getPosX()-1][g.getPosY()+1].setPlayerDistance(g.getPlayerDistance()+1); 
-					queue.add(grid[g.getPosX()-1][g.getPosY()+1]);
+				if(g.getPosWidth() >= 1 && g.getPosHeight() <= this.height-2 && grid[g.getPosWidth()-1][g.getPosHeight()+1].fixed == null && (grid[g.getPosWidth()-1][g.getPosHeight()+1].getPlayerDistance() == -1 || grid[g.getPosWidth()-1][g.getPosHeight()+1].getPlayerDistance() > g.getPlayerDistance())) {
+					grid[g.getPosWidth()-1][g.getPosHeight()+1].setPlayerDistance(g.getPlayerDistance()+1); 
+					queue.add(grid[g.getPosWidth()-1][g.getPosHeight()+1]);
 				}
-				if(g.getPosX() <= this.width-2 && g.getPosY() >= 1 && (grid[g.getPosX()+1][g.getPosY()-1].getPlayerDistance() == -1 || grid[g.getPosX()+1][g.getPosY()-1].getPlayerDistance() > g.getPlayerDistance())) {
-					grid[g.getPosX()+1][g.getPosY()-1].setPlayerDistance(g.getPlayerDistance()+1); 
-					queue.add(grid[g.getPosX()+1][g.getPosY()-1]);
+				if(g.getPosWidth() <= this.width-2 && g.getPosHeight() >= 1 && grid[g.getPosWidth()+1][g.getPosHeight()-1].fixed == null && (grid[g.getPosWidth()+1][g.getPosHeight()-1].getPlayerDistance() == -1 || grid[g.getPosWidth()+1][g.getPosHeight()-1].getPlayerDistance() > g.getPlayerDistance())) {
+					grid[g.getPosWidth()+1][g.getPosHeight()-1].setPlayerDistance(g.getPlayerDistance()+1); 
+					queue.add(grid[g.getPosWidth()+1][g.getPosHeight()-1]);
 				}
-				if(g.getPosX() <= this.width-2 && g.getPosY() <= this.height-2 && (grid[g.getPosX()+1][g.getPosY()+1].getPlayerDistance() == -1 || grid[g.getPosX()+1][g.getPosY()+1].getPlayerDistance() > g.getPlayerDistance())) {
-					grid[g.getPosX()+1][g.getPosY()+1].setPlayerDistance(g.getPlayerDistance()+1); 
-					queue.add(grid[g.getPosX()+1][g.getPosY()+1]);
+				if(g.getPosWidth() <= this.width-2 && g.getPosHeight() <= this.height-2 && grid[g.getPosWidth()+1][g.getPosHeight()+1].fixed == null && (grid[g.getPosWidth()+1][g.getPosHeight()+1].getPlayerDistance() == -1 || grid[g.getPosWidth()+1][g.getPosHeight()+1].getPlayerDistance() > g.getPlayerDistance())) {
+					grid[g.getPosWidth()+1][g.getPosHeight()+1].setPlayerDistance(g.getPlayerDistance()+1); 
+					queue.add(grid[g.getPosWidth()+1][g.getPosHeight()+1]);
 				}
 				queue.remove();
 			}
@@ -121,9 +125,9 @@ public class Arena extends Boundary implements DrawAble{
 	}
 	
 	public void physicUpdate() {
-		//checkCollision();
-		//resolveCollisions();
-		//correctPositions();
+		checkCollision();
+		resolveCollisions();
+		correctPositions();
 		for(Collider c: colliders) {
 			c.update();
 		}
@@ -140,8 +144,8 @@ public class Arena extends Boundary implements DrawAble{
 			}
 		});
 		for(int i=0;i<colliders.size();i++) {
-			double minX = colliders.get(i).getX() - 1.5*Charector.WIDTH;
-			double minY = colliders.get(i).getX() - 1.5*Charector.HEIGHT;
+			double minX = colliders.get(i).getX();
+			double minY = colliders.get(i).getY() - 1.5*Charector.HEIGHT;
 			double maxX = colliders.get(i).getX() + 1.5*Charector.WIDTH;
 			double maxY = colliders.get(i).getY() + 1.5*Charector.HEIGHT;
 			int cnt = 1;
@@ -150,7 +154,6 @@ public class Arena extends Boundary implements DrawAble{
 					Contact c = colliders.get(i).checkContact(colliders.get(i+cnt));
 					if (c != null && !contacts.contains(c)) {
 	                    contacts.add(c);
-	                   // System.out.println(c.penetration);
 	                } 
 				}
 				cnt++;
@@ -187,8 +190,13 @@ public class Arena extends Boundary implements DrawAble{
 		updatePlayerDistance();
 	}
 	
-	public void addFixedObject(FixedObject o) {
-		
+	public boolean addFixedObject(double hp,int x,int y) {
+		if(grid[x][y].hasFixed()) return false;
+		FixedObject fixed;
+		if(hp == Double.POSITIVE_INFINITY)	fixed = new FixedObject(1,true,x*Grid.WIDHT+Grid.WIDHT/2,y*Grid.HEIGHT+Grid.HEIGHT/2,Grid.WIDHT-2,Grid.HEIGHT-2);
+		else fixed = new FixedObject((int) hp,false,x*Grid.WIDHT+Grid.WIDHT/2,y*Grid.HEIGHT+Grid.HEIGHT/2,Grid.WIDHT-2,Grid.HEIGHT-2);
+		colliders.add(fixed);
+		return grid[x][y].addFixOject(fixed);
 	}
 	
 	public void draw(GraphicsContext gc) {

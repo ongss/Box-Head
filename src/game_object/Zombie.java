@@ -12,7 +12,7 @@ public class Zombie extends Charector{
 	public static final double SPEED = 5;
 	
 	public Zombie(double posX, double posY) {
-		super(MASS, HP, ATTACK, ATTACK_FORCE, SPEED, posX, posY);
+		super(999999999, HP, ATTACK, ATTACK_FORCE, SPEED, posX, posY);
 	}
 	
 	public void draw(GraphicsContext gc) {

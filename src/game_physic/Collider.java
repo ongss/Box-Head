@@ -99,7 +99,7 @@ public class Collider extends Boundary implements Comparable<Collider>{
 	public void resloveCollision(Collider other) {
 		Vector2D vec = new Vector2D(this.getX()-other.getX(),this.getY()-other.getY());
 		if(this.velocity.size() == 0) return;
-		System.out.println(this.velocity.size());
+		//System.out.println(this.velocity.size());
 		double vecAlongnormal = vec.dot(this.velocity.getUnit());
 		if(vecAlongnormal > 0) return;
 		double magnitude = -(1+this.REFECT_CEFFICIENT)*vecAlongnormal;

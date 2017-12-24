@@ -18,7 +18,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			test();
 			SceneManager.initialize(primaryStage);
 			SceneManager.gotoMainMenu();
 			primaryStage.setTitle("BOX HEAD");
@@ -39,12 +38,5 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
-	public void test() {
-		Point2D a = new Point2D(0,0);
-		Point2D b = new Point2D(1,0);
-		Point2D c = new Point2D(1,1);
-		Edge f = new Edge(b,c);
-		System.out.println(f.normal);
-	}
+
 }

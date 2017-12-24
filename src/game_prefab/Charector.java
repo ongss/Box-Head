@@ -2,13 +2,13 @@ package game_prefab;
 
 import game_physic.Collider;
 import game_physic.DrawAble;
-import game_physic.Force2D;
 import game_physic.Vector2D;
 
 public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 	public static final double WIDTH = 50;
 	public static final double HEIGHT = 50;
 	
+	private int maxHp;
 	private int hp;
 	private int attack;
 	private double speed;
@@ -17,6 +17,7 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 
 	public Charector(int mass,int hp,int attack,double force, double speed, double posX, double posY) {
 		super(mass, posX, posY, WIDTH, HEIGHT);
+		this.maxHp = hp;
 		this.hp = hp;
 		this.attack = attack;
 		this.force = force;
@@ -32,7 +33,6 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 		if(this.hp < 0) this.hp = 0;
 	}
 	
-	
 	public boolean isAlive() {
 		if(this.hp >= 0) return true;
 		return false;
@@ -40,7 +40,6 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 
 	@Override
 	public void turn(String di) {
-		
 		
 	}
 
@@ -108,6 +107,10 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 		this.setVelocity(this.velocity.getX()+walkSpeedX, this.velocity.getY()+walkSpeedY);
 	}
 
+	public int getCurrentHp() {
+		return this.hp;
+	}
+	
 	@Override
 	public void walkTo(double x,double y) {
 		// TODO Auto-generated method stub
@@ -120,5 +123,5 @@ public class Charector extends Collider implements DrawAble,WalkAble,TurnAble{
 		walkSpeedX = 0;
 		walkSpeedY = 0;
 	}
-
+	
 }

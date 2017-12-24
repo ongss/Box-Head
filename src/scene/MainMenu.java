@@ -64,7 +64,7 @@ public class MainMenu extends Canvas {
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setFill(Color.WHITE);
 		gc.setFont(TITLE_FONT);
-		gc.fillText("Robot Game", SceneManager.SCENE_WIDTH / 2, SceneManager.SCENE_HEIGHT / 4);
+		gc.fillText("BOX HEAD", SceneManager.SCENE_WIDTH / 2, SceneManager.SCENE_HEIGHT / 4);
 		gc.setFont(MENU_FONT);
 		option.draw(gc);
 	}

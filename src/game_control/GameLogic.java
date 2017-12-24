@@ -134,13 +134,16 @@ public class GameLogic {
 					rightState = true;
 				}
 				if(event.getCode() == KeyCode.ENTER) {
-					System.out.println(model.player);
+					//System.out.println(model.player.getPos());
+					model.player.shoot();
 				}
 				if(event.getCode() == KeyCode.W) {
 					//model.player.rotate(2);
+					model.player.wm.shiftLeft();
 				}
 				if(event.getCode() == KeyCode.E) {
 					//model.other.rotate(2);
+					model.player.wm.shiftRight();
 				}
 				if(event.getCode() == KeyCode.R) {
 					//model.player.rotateTo(0);

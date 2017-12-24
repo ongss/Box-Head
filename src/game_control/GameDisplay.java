@@ -29,8 +29,6 @@ public class GameDisplay extends Canvas {
 	private GraphicsContext gc;
 	private boolean isAnimationRunning;
 	
-	private Contact c;
-	
 	public GameDisplay(GameModel model,GameTimer timer){
 		this.setHeight(SceneManager.SCENE_HEIGHT);
 		this.setWidth(SceneManager.SCENE_WIDTH);
@@ -76,12 +74,12 @@ public class GameDisplay extends Canvas {
 		gc.fillRect(0, 0, SceneManager.SCENE_WIDTH, SceneManager.SCENE_HEIGHT);
 		model.arena.draw(gc);
 		model.zombie.draw(gc);
-		model.player.draw(gc,Color.WHITE);
-		c = model.zombie.checkContact(model.player);
-		if(c!=null) {
-			c.correctPosition();
-			c.resolveCollision();
-		}
+		model.player.draw(gc);
+		//c = model.zombie.checkContact(model.player);
+		//if(c!=null) {
+		//	c.correctPosition();
+		//	c.resolveCollision();
+		//}
 		
 	}
 	

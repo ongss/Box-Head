@@ -17,6 +17,7 @@ public class Grid extends Boundary{
 	public static double HEIGHT = 50;
 	
 	private TreeSet<Charector> charector;
+	public FixedObject fixed;
 	private int distanceFormPlayer;
 	
 	public Grid(double posX,double posY) {
@@ -37,7 +38,9 @@ public class Grid extends Boundary{
 		charector.clear();
 	}
 	
-	public boolean addFixOject() {
+	public boolean addFixOject(FixedObject fixed) {
+		if(this.fixed != null) return false;
+		this.fixed = fixed;
 		return true;
 	}
 	
@@ -61,6 +64,11 @@ public class Grid extends Boundary{
 		return c;
 	}
 	
+	public boolean hasFixed() {
+		if(this.fixed == null) return false;
+		return true;
+	}
+	
 	public void setPlayerDistance(int dis) {
 		this.distanceFormPlayer = dis;
 	}
@@ -75,9 +83,10 @@ public class Grid extends Boundary{
 		}
 		return false;
 	}
-	
+		
 	public void draw(GraphicsContext gc) {
-		super.draw(gc,Color.WHITE);
+		if(fixed == null) super.draw(gc,Color.WHITE);
+		else super.draw(gc, Color.RED);
 		if(isPlayerIn()) super.draw(gc, Color.WHITE);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setFill(Color.WHITE);
@@ -85,11 +94,11 @@ public class Grid extends Boundary{
 		gc.fillText(Integer.toString(getPlayerDistance()), super.getX(), super.getY());
 	}
 	
-	public int getPosX() {
+	public int getPosWidth() {
 		return (int) Math.floor(super.getX()/Grid.WIDHT);
 	}
 	
-	public int getPosY() {
+	public int getPosHeight() {
 		return (int) Math.floor(super.getY()/Grid.HEIGHT);
 	}
 }
